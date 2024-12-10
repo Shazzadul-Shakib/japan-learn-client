@@ -1,0 +1,13 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".", // Optional but often necessary
+    "paths": {
+      "@/*": ["src/*"] // Ensure this matches the alias in `vite.config.js`
+    }
+  }
+}
