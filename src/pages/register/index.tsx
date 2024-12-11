@@ -1,15 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { TFormSchema, useRegisterForm } from "./useRegister";
+import useGetImageUrl from "@/hooks/useGetImageUrl";
 
 const Register: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useRegisterForm();
+  const [fileName, setFileName] = useState<string>("No file chosen");
+  const { getImageUrl } = useGetImageUrl();
 
-  const onSubmit = (data: TFormSchema) => {
+  // --- Handle file change --- //
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; // Get the selected file
+    if (file) {
+      setValue("profile", file); // Set the file in react-hook-form
+      setFileName(file.name); // Update the file name for display
+    } else {
+      setFileName("No file chosen");
+    }
+  };
+
+  // --- Handle submit of register form --- //
+  const onSubmit = async (data: TFormSchema) => {
+    const imageUrl = await getImageUrl(data.profile as File);
+    data.profile = imageUrl;
     console.log("Form Data:", data);
   };
 
@@ -52,6 +70,34 @@ const Register: React.FC = () => {
               <p className="text-sm text-red-500">{errors.email.message}</p>
             )}
           </div>
+          {/* Profile Photo Field */}
+          <div className="flex flex-col">
+            <label htmlFor="profile" className="mb-1 text-sm text-white">
+              Profile Photo
+            </label>
+            <div className="relative flex items-center justify-between">
+              <input
+                id="profile"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <label
+                htmlFor="profile"
+                className="hover:bg-accent-light w-full cursor-pointer rounded bg-white p-2 text-center text-sm font-semibold text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+              >
+                Choose File
+              </label>
+              <span id="file-name" className="ml-2 text-xs text-gray-300">
+                {fileName}
+              </span>
+            </div>
+            {errors.profile && (
+              <p className="text-sm text-red-500">{errors.profile.message}</p>
+            )}
+          </div>
+
           {/* Password Field */}
           <div className="flex flex-col">
             <label htmlFor="password" className="mb-1 text-sm text-white">
