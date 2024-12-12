@@ -1,17 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TFormSchema, useRegisterForm } from "./useRegister";
 import useGetImageUrl from "@/hooks/useGetImageUrl";
+import { useRegisterUserMutation } from "@/redux/api/authApi";
 
 const Register: React.FC = () => {
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useRegisterForm();
   const [fileName, setFileName] = useState<string>("No file chosen");
   const { getImageUrl } = useGetImageUrl();
+  const [registerUser, { isLoading: isRegisterLoading }] =
+    useRegisterUserMutation();
+  const navigate = useNavigate();
 
   // --- Handle file change --- //
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +34,15 @@ const Register: React.FC = () => {
     const imageUrl = await getImageUrl(data.profile as File);
     data.profile = imageUrl;
     console.log("Form Data:", data);
+    const newUser = await registerUser(data);
+
+    if (newUser?.error) {
+      alert(newUser?.error?.data?.message);
+    } else {
+      reset();
+      navigate("/login");
+      alert(newUser?.data?.message);
+    }
   };
 
   return (
@@ -119,7 +133,7 @@ const Register: React.FC = () => {
             type="submit"
             className="hover:bg-accent-dark mt-4 w-full rounded bg-accent py-2 text-white transition-colors"
           >
-            Register
+            {isRegisterLoading ? "Loading..." : " Register"}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-white">

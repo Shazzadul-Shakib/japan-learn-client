@@ -31,7 +31,7 @@ export const useRegisterForm = () => {
     defaultValues: {
       userName: "",
       email: "",
-      profile: "", // Default to empty string
+      profile: "",
       password: "",
     },
   });
