@@ -7,6 +7,7 @@ const MainLayout: React.FC = () => {
 
   return user && user?.role === "user" ? (
     <section className="grid min-h-screen bg-background md:grid-cols-[auto_1fr]">
+      <h1>{user?.userName}</h1>
       <Outlet />
     </section>
   ) : (
