@@ -21,10 +21,10 @@ const ManageUsers: React.FC = () => {
               <th className="border border-primary px-4 py-3 text-left text-sm font-medium">
                 Username
               </th>
-              <th className="border border-primary px-4 py-3 text-left text-sm font-medium">
+              <th className="hidden border border-primary px-4 py-3 text-left text-sm font-medium sm:table-cell">
                 Email
               </th>
-              <th className="border border-primary px-4 py-3 text-center text-sm font-medium">
+              <th className="hidden border border-primary px-4 py-3 text-center text-sm font-medium sm:table-cell">
                 Role
               </th>
               <th className="border border-primary px-4 py-3 text-center text-sm font-medium">
@@ -43,10 +43,10 @@ const ManageUsers: React.FC = () => {
                 <td className="border border-primary px-4 py-3 text-sm text-white">
                   {user.userName}
                 </td>
-                <td className="border border-primary px-4 py-3 text-sm text-white">
+                <td className="hidden border border-primary px-4 py-3 text-sm text-white sm:table-cell">
                   {user.email}
                 </td>
-                <td className="border border-primary px-4 py-3 text-center text-sm font-medium text-white">
+                <td className="hidden border border-primary px-4 py-3 text-center text-sm font-medium text-white sm:table-cell">
                   {user.role}
                 </td>
                 <td className="border border-primary px-4 py-3 text-center">

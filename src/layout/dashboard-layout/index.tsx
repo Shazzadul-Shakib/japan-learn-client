@@ -8,11 +8,13 @@ const DashboardLayout: React.FC = () => {
 
   return user && user?.role === "admin" ? (
     <section className="grid min-h-screen bg-background md:grid-cols-[auto_1fr]">
-      {/* Fixed Sidebar */}
-      <Sidebar />
+      {/* Sidebar */}
+      <div className="fixed z-50 md:relative">
+        <Sidebar />
+      </div>
 
-      {/* Scrollable Outlet */}
-      <div className="relative h-screen overflow-y-auto">
+      {/* Scrollable Content */}
+      <div className="relative h-screen w-full overflow-y-auto pl-16 md:pl-0">
         <Outlet />
       </div>
     </section>
