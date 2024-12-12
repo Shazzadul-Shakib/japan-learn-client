@@ -10,6 +10,12 @@ export default {
         destructive: "#FF3B5E",
         success: "#17D286",
       },
+      scrollbar: {
+        DEFAULT: {
+          thumb: "bg-accent",
+          track: "bg-primary",
+        },
+      },
     },
   },
   plugins: [],

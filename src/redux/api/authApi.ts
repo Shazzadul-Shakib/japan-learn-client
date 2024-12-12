@@ -24,7 +24,14 @@ export const authApi = createApi({
       }),
       invalidatesTags: ["user"],
     }),
+    getAllUser: builder.query({
+      query: () => ({
+        url: "users",
+        method: "GET",
+      }),
+      providesTags: ["user"],
+    }),
   }),
 });
 
-export const { useRegisterUserMutation,useLoginUserMutation } = authApi;
+export const { useRegisterUserMutation, useLoginUserMutation,useGetAllUserQuery } = authApi;
