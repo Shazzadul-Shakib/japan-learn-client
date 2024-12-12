@@ -2,10 +2,10 @@ import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router";
 
-const MainLayout: React.FC = () => {
+const DashboardLayout: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
 
-  return user && user?.role === "user" ? (
+  return user && user.role === "admin" ? (
     <section className="grid min-h-screen bg-background md:grid-cols-[auto_1fr]">
       <Outlet />
     </section>
@@ -14,4 +14,4 @@ const MainLayout: React.FC = () => {
   );
 };
 
-export default MainLayout;
+export default DashboardLayout;

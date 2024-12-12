@@ -1,16 +1,36 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TLoginFormSchema, useLoginForm } from "./useLogin";
+import { useLoginUserMutation } from "@/redux/api/authApi";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/authSlice";
 
 const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useLoginForm();
+  const [userLogin, { isLoading: isLoginLoading }] = useLoginUserMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: TLoginFormSchema) => {
+  const onSubmit = async (data: TLoginFormSchema) => {
     console.log("Login Data:", data);
+    const loggedUser = await userLogin(data);
+
+    if (loggedUser?.data?.success) {
+      dispatch(setUser(loggedUser?.data?.data));
+      reset();
+      const userRole = loggedUser?.data?.data.role;
+      if (userRole === "user") {
+        navigate("/");
+      } else if (userRole === "admin") {
+        navigate("/dashboard");
+      }
+    }
+    console.log(loggedUser);
   };
 
   return (
@@ -57,7 +77,7 @@ const Login: React.FC = () => {
             type="submit"
             className="hover:bg-accent-dark mt-4 w-full rounded bg-accent py-2 text-white transition-colors"
           >
-            Login
+            {isLoginLoading ? "Loading..." : "Login"}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-white">

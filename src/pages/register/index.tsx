@@ -33,7 +33,6 @@ const Register: React.FC = () => {
   const onSubmit = async (data: TFormSchema) => {
     const imageUrl = await getImageUrl(data.profile as File);
     data.profile = imageUrl;
-    console.log("Form Data:", data);
     const newUser = await registerUser(data);
 
     if (newUser?.error) {
